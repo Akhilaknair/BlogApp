@@ -3,6 +3,10 @@ const { NextResponse } = require("next/server");
 import BlogModel from "@/lib/models/BlogModel";
 import { writeFile } from "fs/promises";
 
+
+const fs=require('fs')//fs lib to dlete post img from public folder
+
+
 // /////------db connection
 
 const LoadDB = async () => {
@@ -74,5 +78,8 @@ export async function POST(request) {
 
 export async function DELETE(request){
      const id=await request.nextUrl.searchParams.get('id')
-
+     const blog=await BlogModel.findById(id)
+     fs.unlink(`./public${blog.image}`,()=>{})
+     await BlogModel.findByIdAndDelete(id)
+     return NextResponse.json({msg:"Blog Deleted"})
 }

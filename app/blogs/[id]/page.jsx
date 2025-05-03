@@ -68,60 +68,13 @@ const page = ({ params }) => {
           height={720}
           alt=""
         />
-        <h1 className="my-8 text-[26px] font-semibold">Introduction : </h1>
-        <p>{data.description}</p>
-        <h3 className="my-5 text-[18px] font-semibold">
-          step 1 : helloo guys.........................
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
+       
 
-        <h3 className="my-5 text-[18px] font-semibold">
-          step 2 : helloo guys.........................
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
 
-        <h3 className="my-5 text-[18px] font-semibold">
-          step 3 : helloo guys.........................
-        </h3>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
-        <p className="my-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eligendi
-          cum culpa eos possimus, modi accusantium eius ea recusandae doloribus
-          itaque impedit praesentium dolorum! Debitis sed nemo culpa cupiditate
-          officia.
-        </p>
-
-        <h3 className="my-5 text-[18px] font-semibold">Conclusion :: </h3>
-        <p className="my-3">
-          managemenbfdghjghtgkjhtrkgrhjhrkhnyhnfbbbbbbbbbbbbbbbbb
-        </p>
+       <div className="blog-content" dangerouslySetInnerHTML={{__html:data.description}}></div>
+        
+        
+        
 
         <div className="my-24">
           <p className="text-black font-semibold my-4">
