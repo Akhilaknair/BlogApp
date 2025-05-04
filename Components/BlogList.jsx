@@ -1,4 +1,3 @@
-import { blog_data } from "@/Assets/assets";
 import React, { useEffect, useState } from "react";
 import BlogItem from "./BlogItem";
 import axios from "axios";
@@ -16,7 +15,6 @@ const BlogList = () => {
     console.log(response.data.blogs);
   };
 
-  // whenever  component gets loaded
 
   useEffect(() => {
     fetchBlogs();
@@ -56,24 +54,24 @@ const BlogList = () => {
           Nutrition
         </button>
         <button
-          onClick={() => setmenu("MentalHealth")}
+          onClick={() => setmenu("Remedies")}
           className={
-            menu === "MentalHealth"
+            menu === "Remedies"
               ? "bg-orange-600 text-white px-5 py-1 rounded-sm"
               : ""
           }
         >
-          MentalHealth
+          Remedies
         </button>
         <button
-          onClick={() => setmenu("Tips&Remedies")}
+          onClick={() => setmenu("LifeStyle")}
           className={
-            menu === "Tips&Remedies"
+            menu === "LifeStyle"
               ? "bg-orange-600 text-white px-5 py-1 rounded-sm"
               : ""
           }
         >
-          Tips&Remedies
+          LifeStyle
         </button>
         <button
           onClick={() => setmenu("Meditation")}

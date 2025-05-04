@@ -2,25 +2,16 @@ import { ConnectDB } from "@/lib/config/db";
 const { NextResponse } = require("next/server");
 import BlogModel from "@/lib/models/BlogModel";
 import { writeFile } from "fs/promises";
+const fs = require("fs"); // fs lib to delete post img and author img from the public folder
 
-
-const fs=require('fs')//fs lib to dlete post img from public folder
-
-
-// /////------db connection
-
+// ----- Database connection
 const LoadDB = async () => {
   await ConnectDB();
 };
 
 LoadDB();
 
-/// --------api using custom header functions to get all blogs
 export async function GET(request) {
-  // console.log("Blog GET hit!");
-
-  // to get data from blogModel
-
   const blogId = request.nextUrl.searchParams.get("id");
 
   if (blogId) {
@@ -30,56 +21,59 @@ export async function GET(request) {
     const blogs = await BlogModel.find({});
     return NextResponse.json({ blogs });
   }
-
-  // return NextResponse.json({ msg: "Api working" });
 }
 
-///----creating api to store blog data
 export async function POST(request) {
   const formData = await request.formData();
   const timestamp = Date.now();
 
   const image = formData.get("image");
   const imageByteData = await image.arrayBuffer();
-  const buffer = Buffer.from(imageByteData);
+  const imageBuffer = Buffer.from(imageByteData);
 
-  ////---to make img store in public folder
-  const path = `./public/${timestamp}_${image.name}`;
-
-  await writeFile(path, buffer);
-
-  ///-----to access img in blog app
+  const imagePath = `./public/${timestamp}_${image.name}`;
+  await writeFile(imagePath, imageBuffer);
   const imgUrl = `/${timestamp}_${image.name}`;
-  console.log(imgUrl);
 
-  /////now getting other datas
+  const authorImg = formData.get("authorImg");
+  let authorImgUrl = "/profile_icon.jpg"; 
+
+  if (authorImg && authorImg.name) {
+    const authorImgByteData = await authorImg.arrayBuffer();
+    const authorImgBuffer = Buffer.from(authorImgByteData);
+    const authorImgPath = `./public/${timestamp}_author_${authorImg.name}`;
+    await writeFile(authorImgPath, authorImgBuffer);
+    authorImgUrl = `/${timestamp}_author_${authorImg.name}`;
+  }
 
   const blogData = {
     title: `${formData.get("title")}`,
     description: `${formData.get("description")}`,
     category: `${formData.get("category")}`,
     author: `${formData.get("author")}`,
-    image: `${imgUrl}`,
-    authorImg: `${formData.get("authorImg")}`,
+    image: imgUrl, 
+    authorImg: authorImgUrl, 
+    date: new Date(),
   };
 
-  //////using blogdata to store in our database BlogModel
-
   await BlogModel.create(blogData);
-
-  console.log("Blog Saved");
 
   return NextResponse.json({ success: true, msg: "Blog added" });
 }
 
+export async function DELETE(request) {
+  const id = await request.nextUrl.searchParams.get("id");
+  const blog = await BlogModel.findById(id);
 
+  if (blog.image) {
+    fs.unlink(`./public${blog.image}`, () => {});
+  }
 
-//api to delete blog
+  if (blog.authorImg && blog.authorImg !== "/profile_icon.jpg") {
+    fs.unlink(`./public${blog.authorImg}`, () => {});
+  }
 
-export async function DELETE(request){
-     const id=await request.nextUrl.searchParams.get('id')
-     const blog=await BlogModel.findById(id)
-     fs.unlink(`./public${blog.image}`,()=>{})
-     await BlogModel.findByIdAndDelete(id)
-     return NextResponse.json({msg:"Blog Deleted"})
+  await BlogModel.findByIdAndDelete(id);
+
+  return NextResponse.json({ msg: "Blog Deleted" });
 }
