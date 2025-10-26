@@ -7,7 +7,7 @@ A full-stack Blog App where users can read blog posts, subscribe via email, swit
 ## 📌 Features
 
 ### 👤 User Features
-
+ ADMIN LOGIN followed by :: 
 1. **Read Blogs**  
    Users can view all blog posts with title, description, and author info.
 
